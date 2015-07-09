@@ -1,0 +1,22 @@
+#mainBubble {
+      background: #fff;
+      border: solid 1px #1a1a1a;
+      box-shadow: 0 0 4px rgba(0,0,0,0);
+      font: 10px sans-serif;
+      height: 800px;
+      position: relative;
+      width: 80%;
+      left: 10%
+    }
+             
+    #mainBubble svg {
+      left: 5%;
+      position: absolute;
+      top: 0;
+    }
+                         
+    #mainBubble circle.topBubble {
+      fill: #1a1a1a;
+      stroke: #1a1a1a;
+      stroke-width: 1.5px;
+     }

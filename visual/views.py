@@ -1,12 +1,9 @@
 from django.shortcuts import render
 from django.views import generic
-<<<<<<< HEAD
-from models import VisualCountry, VisualSearch_Result
+from .models import VisualCountry, VisualSearchResult
 
-=======
 from django.http import HttpResponseRedirect
 from .forms import SearchForm
->>>>>>> 9f5a757138d7e094fb2b149693bb202a9de57fa0
 
 class HomeView(generic.TemplateView):
 	template_name = "visual/index.html"
@@ -20,8 +17,8 @@ class ContactView(generic.TemplateView):
 class FaqView(generic.TemplateView):
 	template_name = "visual/faq.html"
 
-def country(request, country): 
-	return render(request, 'visual/index.html')
+#def country(request, country): 
+#	return render(request, 'visual/index.html')
 
  
 def countryNames(country):
@@ -30,7 +27,7 @@ def countryNames(country):
     entry = VisualCountry.objects.get(name = country)
     countid = entry.id
     
-    pricelist = [search.price for search in VisualSearch_Result.objects.filter(search_id = countid)]    
+    pricelist = [search.price for search in VisualSearchResult.objects.filter(search_id = countid)]    
     
     return pricelist
     
@@ -57,3 +54,5 @@ def search(request):
 
     return render(request, 'visual/search.html', {'form': form})
 
+def country(request): 
+	return render(request, 'visual/country.html')
