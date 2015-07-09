@@ -85,7 +85,7 @@ WSGI_APPLICATION = 'hotelRanking.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'hotelRanking',
+        'NAME': 'hotelReserve',
         'USER': 'jedi',
         'PASSWORD': 'trance',
         'HOST': 'localhost', # 146.64.25.91

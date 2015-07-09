@@ -121,120 +121,137 @@ from django.db import models
 #        managed = False
 #        db_table = 'django_session'
 
-
-
-
-class Country(models.Model):
+class VisualSite(models.Model):
     id = models.IntegerField(primary_key=True)
     name = models.CharField(max_length=30, blank=True, null=True)
     a_name = models.CharField(max_length=20, blank=True, null=True)
 
     class Meta:
-        managed = False
+        managed = True
+        db_table = 'visual_site'
+        app_label = 'visual'
+
+        
+        
+class VisualBooking(models.Model):
+    total_value = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
+    search_result_id = models.IntegerField()
+    site = models.ForeignKey(VisualSite)
+
+    class Meta:
+        managed = True
+        db_table = 'visual_booking'
+        app_label = 'visual'
+
+
+class VisualCountry(models.Model):
+    id = models.IntegerField(primary_key=True)
+    name = models.CharField(max_length=40, blank=True, null=True)
+    a_name = models.CharField(max_length=20, blank=True, null=True)
+
+    class Meta:
+        managed = True
         db_table = 'visual_country'
+        app_label = 'visual'
 
-class City(models.Model):
+        
+
+class VisualCity(models.Model):
     id = models.IntegerField(primary_key=True)
     name = models.CharField(max_length=30, blank=True, null=True)
     a_name = models.CharField(max_length=20, blank=True, null=True)
-    country = models.ForeignKey(Country, blank=True, null=True)
+    country = models.ForeignKey(VisualCountry, blank=True, null=True)
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'visual_city'
+        app_label = 'visual'
 
 
-class Hotel(models.Model):
+
+class VisualCompetitiveOta(models.Model):
+    price = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
+    percent_diff = models.IntegerField(blank=True, null=True)
+    availablity = models.NullBooleanField()
+    high_low_same = models.CharField(max_length=1, blank=True, null=True)
+
+    class Meta:
+        managed = True
+        db_table = 'visual_competitive_ota'
+        app_label = 'visual'
+
+
+class VisualSearch(models.Model):
+    id = models.IntegerField(primary_key=True)
+    no_adults = models.IntegerField()
+    no_children = models.IntegerField()
+    no_rooms = models.IntegerField()
+    dest_city = models.ForeignKey(VisualCity)
+
+    class Meta:
+        managed = True
+        db_table = 'visual_search'
+        app_label = 'visual'
+        
+
+class VisualDateInfo(models.Model):
+    date_time = models.DateTimeField()
+    length_of_stay = models.IntegerField()
+    booking_window = models.IntegerField()
+    arrive = models.DateField(blank=True, null=True)
+    leave = models.DateField(blank=True, null=True)
+    search = models.ForeignKey(VisualSearch, blank=True, null=True)
+
+    class Meta:
+        managed = True
+        db_table = 'visual_date_info'
+        app_label = 'visual'
+
+class VisualHotel(models.Model):
     id = models.IntegerField(primary_key=True)
     name = models.CharField(max_length=30, blank=True, null=True)
     a_name = models.CharField(max_length=20, blank=True, null=True)
     star_rating = models.IntegerField(blank=True, null=True)
     independent = models.NullBooleanField()
     desirability = models.DecimalField(max_digits=10, decimal_places=5, blank=True, null=True)
-    country = models.ForeignKey(Country, blank=True, null=True)
+    country = models.ForeignKey(VisualCountry, blank=True, null=True)
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'visual_hotel'
+        app_label = 'visual'
 
 
-class Search(models.Model):
-    id = models.IntegerField(primary_key=True)
-    no_adults = models.IntegerField()
-    no_children = models.IntegerField()
-    no_rooms = models.IntegerField()
-    dest_city = models.ForeignKey(City)
-
-    class Meta:
-        managed = False
-        db_table = 'visual_search'
-        
-class DateInfo(models.Model):
-    date_time = models.DateTimeField()
-    length_of_stay = models.IntegerField()
-    booking_window = models.IntegerField()
-    arrival = models.DateField(blank=True, null=True)
-    leave = models.DateField(blank=True, null=True)
-    serach = models.ForeignKey(Search, blank=True, null=True)
-
-    class Meta:
-        managed = False
-        db_table = 'visual_date_info'
-
-
-class SearchResult(models.Model):
+class VisualSearchResult(models.Model):
     rank_pos = models.IntegerField()
     price = models.DecimalField(max_digits=10, decimal_places=2)
     promo_flag = models.BooleanField()
-    affinity_score = models.DecimalField(max_digits=10, decimal_places=5, blank=True, null=True)
+    affinity_score = models.DecimalField(max_digits=65535, decimal_places=65535, blank=True, null=True)
     if_clicked = models.BooleanField()
     short_stay_sat = models.BooleanField()
-    prop_review_score = models.DecimalField(max_digits=2, decimal_places=2, blank=True, null=True)
+    prop_review_score = models.DecimalField(max_digits=65535, decimal_places=65535, blank=True, null=True)
     random_bool = models.BooleanField()
-    hotel = models.ForeignKey(Hotel)
-    search = models.ForeignKey(Search)
+    hotel_id = models.IntegerField()
+    search_id = models.IntegerField()
+    site = models.ForeignKey(VisualSite, blank=True, null=True)
+    booking_bool = models.NullBooleanField()
+    total_price = models.DecimalField(max_digits=65535, decimal_places=65535, blank=True, null=True)
+    hist_price = models.DecimalField(max_digits=65535, decimal_places=65535, blank=True, null=True)
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'visual_search_result'
+        app_label = 'visual'
 
-        
-class CompetitiveOta(models.Model):
-    price = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
-    percent_diff = models.IntegerField(blank=True, null=True)
-    availablity = models.NullBooleanField()
-    high_low_same = models.CharField(max_length=1, blank=True, null=True)
-    search_result = models.ForeignKey(SearchResult)
 
-    class Meta:
-        managed = False
-        db_table = 'visual_competitive_ota'
-        
-class Site(models.Model):
-    id = models.IntegerField(primary_key=True)
-    name = models.CharField(max_length=30, blank=True, null=True)
-    a_name = models.CharField(max_length=20, blank=True, null=True)
-
-    class Meta:
-        managed = False
-        db_table = 'visual_site'
-
-class Booking(models.Model):
-    total_value = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
-    search_result = models.ForeignKey(SearchResult)
-    site = models.ForeignKey(Site)
-
-    class Meta:
-        managed = False
-        db_table = 'visual_booking'
-        
-class Visitor(models.Model):
+class VisualVisitor(models.Model):
     dist_to_dest = models.DecimalField(max_digits=65535, decimal_places=65535, blank=True, null=True)
     mean_star_rating = models.DecimalField(max_digits=65535, decimal_places=65535, blank=True, null=True)
     mean_price = models.DecimalField(max_digits=65535, decimal_places=65535, blank=True, null=True)
-    country = models.ForeignKey(Country)
-    search = models.ForeignKey(Search)
+    country = models.ForeignKey(VisualCountry)
+    search = models.ForeignKey(VisualSearch)
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'visual_visitor'
+        app_label = 'visual'
