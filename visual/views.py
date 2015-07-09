@@ -12,3 +12,6 @@ class ContactView(generic.TemplateView):
 
 class FaqView(generic.TemplateView):
 	template_name = "visual/faq.html"
+
+def country(request, country): 
+	return render(request, 'visual/index.html')

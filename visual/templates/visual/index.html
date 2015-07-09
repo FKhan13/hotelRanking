@@ -21,6 +21,15 @@
     <!-- Custom Fonts -->
     <link href="{%static 'visual/font-awesome/css/font-awesome.min.css'%}" rel="stylesheet" type="text/css">
 
+    <!-- JQuerry ScTipTop (Used for the dropdown box) -->
+    <link href="{%static 'visual/css/jquerysctipttop.css'%}" rel="stylesheet" >
+
+    <!-- Flags.css used to add flags to countries -->
+    <link href="{%static 'visual/css/flags/flags.css'%}" rel="stylesheet">
+
+    <!-- ZoomMap.css used to style to map -->
+    <link rel="stylesheet" href="{%static 'visual/css/zoomMap.css'%}" >
+
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -106,6 +115,20 @@
 
     <!-- Page Content -->
     <div class="container">
+        
+        <!--Position of the map-->
+        <div id="myclass"></div>
+
+        <!--Drop Down selection -->
+        <form>
+            <div class="form-group">
+            <label>Select Country</label><br>
+            <div id="basic" 
+                data-input-name="country"></div>
+                <br/>
+            </div>
+            <button onClick="GetSelectedItem();"> Go! </button>
+        </form>
 
         <!-- Footer -->
         <footer>
@@ -124,6 +147,17 @@
 
     <!-- Bootstrap Core JavaScript -->
     <script src="{%static 'visual/js/bootstrap.min.js'%}"></script>
+
+    <!-- jQuery.flagstrap -->
+    <script src="{%static 'visual/js/jquery.flagstrap.js'%}"></script>
+
+    <!-- Drop.js used for the dropdown box -->
+    <script src="{%static 'visual/js/drop.js'%}"></script>
+
+    <!--Country selector-->
+    <script src="{%static 'visual/js/d3.min.js'%}"></script>
+    <script src="{%static 'visual/js/topojson.js'%}"></script>
+    <script src="{%static 'visual/js/zoomMap.js'%}"></script>
 
     <!-- Script to Activate the Carousel -->
     <script>
