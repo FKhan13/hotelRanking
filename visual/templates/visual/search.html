@@ -70,62 +70,17 @@
         <!-- /.container -->
     </nav>
 
-    <!-- Header Carousel -->
-    <header id="myCarousel" class="carousel slide">
-        <!-- Indicators -->
-        <ol class="carousel-indicators">
-            <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
-            <li data-target="#myCarousel" data-slide-to="1"></li>
-            <li data-target="#myCarousel" data-slide-to="2"></li>
-        </ol>
-
-        <!-- Wrapper for slides -->
-        <div class="carousel-inner">
-            <div class="item active">
-                <div class="fill" style="background-image:url('http://placehold.it/1900x1080&text=Hotel');"></div>
-                <div class="carousel-caption">
-                    <!--<h2>Caption 1</h2>-->
-                </div>
-            </div>
-            <div class="item">
-                <div class="fill" style="background-image:url('http://placehold.it/1900x1080&text=Recommender');"></div>
-                <div class="carousel-caption">
-                    <!--<h2>Caption 2</h2>-->
-                </div>
-            </div>
-            <div class="item">
-                <div class="fill" style="background-image:url('http://placehold.it/1900x1080g&text=Dashboard');"></div>
-                <div class="carousel-caption">
-                    <!--<h2>Caption 3</h2>-->
-                </div>
-            </div>
-        </div>
-
-        <!-- Controls -->
-        <a class="left carousel-control" href="#myCarousel" data-slide="prev">
-            <span class="icon-prev"></span>
-        </a>
-        <a class="right carousel-control" href="#myCarousel" data-slide="next">
-            <span class="icon-next"></span>
-        </a>
-    </header>
-
     <!-- Page Content -->
     <div class="container">
 
         <!-- Search Form -->
-        <form action="/search/" method="post">
+        <form action="." method="post">
             {% csrf_token %}
-            <div class="form-group">
-            <label>Search</label><br>
-            <div id="basic" 
-                data-input-name="country"></div>
-                <br/>
-            </div>
+            <label><strong>Please refine your search</strong></label><br><br>
             <table style="width:100%">
                 {{ form.as_table }}
             </table>
-            <input type="submit" value="Submit" />
+            <br><input type="submit" value="Submit" />
         </form>
 
         <!-- Footer -->
@@ -151,14 +106,6 @@
 
     <!-- Drop.js used for the dropdown box -->
     <script src="{%static 'visual/js/drop.js'%}"></script>
-
-    <!-- Script to Activate the Carousel -->
-    <script>
-    $('.carousel').carousel({
-        interval: 5000 //changes the speed
-    })
-    </script>
-
 
 </body>
 

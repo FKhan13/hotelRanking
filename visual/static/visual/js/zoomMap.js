@@ -87,18 +87,18 @@ function draw(topo) {
       })
       .on("click", function(d, i){
       	var country = d.properties.name;
-        /*var linktext = "{%url 'visual/country'%}?"
-        linktext.append(country)
-        //linktext.append("'%}")
-        var a = document.getElementById("next")
-        a.setAttribute("href",linktext)*/
-        var a = document.createElement('a');
-        var linkText = document.createTextNode("Click here to contine");
-        a.appendChild(linkText);
-        a.title = "continue";
-        a.href = "http://127.0.0.1:8000/visual/country/";
-        document.body.appendChild(a);
-      	//alert(country);
+
+        //url hardcoded due to the fact that django links cannot be recreated using javascript
+        var link = "location.href ='http://localhost:8000/visual/";
+
+        //spaces should be replaced with underscores because spaces are not allowed in url links
+        var correct_country = country.replace(/ /gi,"_");
+        
+        //create full link
+        link = link + correct_country +"/search/';"
+
+        var a = document.getElementById('next');
+        a.setAttribute("onClick",link);
       });
 
 

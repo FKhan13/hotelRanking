@@ -4,12 +4,17 @@ function GetSelectedItem()
 	{
 	    var e = $("#basic option:selected").text();
 	    //alert(e);
-	    var a = document.createElement('a');
-        var linkText = document.createTextNode("Click here to contine");
-        a.appendChild(linkText);
-        a.title = "continue";
-        a.href = "http://127.0.0.1:8000/visual/country/";
-        document.body.appendChild(a);
+	    
+	    //url hardcoded due to the fact that django links cannot be recreated using javascript
+        var link = "http://localhost:8000/visual/";
+
+        //spaces should be replaced with underscores because spaces are not allowed in url links
+        var correct_country = e.replace(/ /gi,"_");
+        
+        //create full link
+        link = link + correct_country +"/search/"
+
+		window.location.assign(link);
       	//alert(country);
 	    //console.log(e);
 	}
