@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.views import generic
+
 from .models import VisualCountry, VisualSearchResult
 
 from django.http import HttpResponseRedirect
@@ -16,24 +17,6 @@ class ContactView(generic.TemplateView):
 
 class FaqView(generic.TemplateView):
 	template_name = "visual/faq.html"
-
-#def country(request, country): 
-#	return render(request, 'visual/index.html')
-
- 
-def countryNames(country):
-    #countries = [country.name for country in VisualCountry.objects.all()]
-    #countries = [country.id for country in VisualCountry.objects.all()]
-    entry = VisualCountry.objects.get(name = country)
-    countid = entry.id
-    
-    pricelist = [search.price for search in VisualSearchResult.objects.filter(search_id = countid)]    
-    
-    return pricelist
-    
-name = 'Ukraine'
-countries = countryNames(name)
-
 
 def search(request):
 	# if this is a POST request we need to process the form data
