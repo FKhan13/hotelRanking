@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.views import generic
-#import countryStats
+
 from .models import VisualCountry, VisualSearchResult
 
 from django.http import HttpResponseRedirect
@@ -18,8 +18,8 @@ class ContactView(generic.TemplateView):
 class FaqView(generic.TemplateView):
 	template_name = "visual/faq.html"
 
-def country(request, country): 
-	return render(request, 'visual/index.html')
+#def country(request, country): 
+#	return render(request, 'visual/index.html')
 
 
 def search(request):
@@ -41,5 +41,8 @@ def search(request):
 
     return render(request, 'visual/search.html', {'form': form})
 
-name = 'Ukraine'
 #countries = countryStats.countryNames(name)
+
+def country(request): 
+	return render(request, 'visual/country.html')
+

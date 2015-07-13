@@ -1,0 +1,7 @@
+{"name":"bubble", "children": [
+	{"name":"Price", "description":"Avergae price of hotels", "value": "R450"},
+	{"name":"Star Rating","description":"Average Review of Hotels (out of 5)", "value": "3"},
+	{"name":"Rank", "description": "Average rank of hotels on Expedia", "value": "10"},
+	{"name":"Bookings", "description":"Avergae number of bookings", "value": "540"},
+	{"name":"Stay Length", "description":"Average length of stay", "value":"4 days"}
+]}

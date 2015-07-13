@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Hotel Rankings - Country Select</title>
+    <title>Hotel Rankings - Country Stats</title>
     
     {% load staticfiles %}
     <!-- Bootstrap Core CSS -->
@@ -21,14 +21,8 @@
     <!-- Custom Fonts -->
     <link href="{%static 'visual/font-awesome/css/font-awesome.min.css'%}" rel="stylesheet" type="text/css">
 
-    <!-- JQuerry ScTipTop (Used for the dropdown box) -->
-    <link href="{%static 'visual/css/jquerysctipttop.css'%}" rel="stylesheet" >
-
-    <!-- Flags.css used to add flags to countries -->
-    <link href="{%static 'visual/css/flags/flags.css'%}" rel="stylesheet">
-
-    <!-- ZoomMap.css used to style to map -->
-    <link rel="stylesheet" href="{%static 'visual/css/zoomMap.css'%}" >
+    <!-- Used to style bubbles -->
+    <link rel="stylesheet"  href="{%static 'visual/css/bubble.css'%}" >
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -115,22 +109,11 @@
 
     <!-- Page Content -->
     <div class="container">
-        
-        <!--Position of the map-->
-        <div id="myclass"></div>
 
-        <a href="" id="next">Continue</a>
-
-        <!--Drop Down selection -->
-        <form>
-            <div class="form-group">
-            <label>Select Country</label><br>
-            <div id="basic" 
-                data-input-name="country"></div>
-                <br/>
-            </div>
-            <button onClick="GetSelectedItem();"> Search </button>
-        </form>
+        <!-- Bubble -->
+        <div id="mainBubble" style="height: 618px;">
+            <svg class="mainBubbleSVG" width="900" height="618"></svg>
+        </div>
 
         <!-- Footer -->
         <footer>
@@ -150,16 +133,11 @@
     <!-- Bootstrap Core JavaScript -->
     <script src="{%static 'visual/js/bootstrap.min.js'%}"></script>
 
-    <!-- jQuery.flagstrap -->
-    <script src="{%static 'visual/js/jquery.flagstrap.js'%}"></script>
-
-    <!-- Drop.js used for the dropdown box -->
-    <script src="{%static 'visual/js/drop.js'%}"></script>
-
-    <!--Country selector-->
+    <!-- D3 -->
     <script src="{%static 'visual/js/d3.min.js'%}"></script>
-    <script src="{%static 'visual/js/topojson.js'%}"></script>
-    <script src="{%static 'visual/js/zoomMap.js'%}"></script>
+
+    <!-- Bubble.js used to render bubble -->
+    <script src="{%static 'visual/js/bubble.js'%}"></script>
 
     <!-- Script to Activate the Carousel -->
     <script>
@@ -167,6 +145,7 @@
         interval: 5000 //changes the speed
     })
     </script>
+
 
 </body>
 
