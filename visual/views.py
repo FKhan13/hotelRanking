@@ -54,5 +54,5 @@ def search(request):
 
     return render(request, 'visual/search.html', {'form': form})
 
-def country(request): 
+def country(request, country): 
 	return render(request, 'visual/country.html')

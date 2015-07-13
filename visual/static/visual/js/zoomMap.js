@@ -87,13 +87,18 @@ function draw(topo) {
       })
       .on("click", function(d, i){
       	var country = d.properties.name;
-        /*var a = document.createElement('a');
-        var linkText = document.createTextNode("my title text");
+        /*var linktext = "{%url 'visual/country'%}?"
+        linktext.append(country)
+        //linktext.append("'%}")
+        var a = document.getElementById("next")
+        a.setAttribute("href",linktext)*/
+        var a = document.createElement('a');
+        var linkText = document.createTextNode("Click here to contine");
         a.appendChild(linkText);
-        a.title = "my title text";
-        a.href = "https://www.google.co.za/";
-        document.body.appendChild(a);*/
-      	alert(country);
+        a.title = "continue";
+        a.href = "http://127.0.0.1:8000/visual/country/";
+        document.body.appendChild(a);
+      	//alert(country);
       });
 
 
