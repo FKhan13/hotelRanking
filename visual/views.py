@@ -1,4 +1,5 @@
 from django.shortcuts import render, render_to_response
+from django.template import RequestContext
 from django.views import generic
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
@@ -56,3 +57,7 @@ def search(request,country):
 
 def country(request, country): 
 	return render(request, 'visual/country.html')
+
+def play(request):
+    
+    return render_to_response('visual/play.html', context,RequestContext(request),)
