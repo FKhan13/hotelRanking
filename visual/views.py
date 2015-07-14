@@ -3,6 +3,11 @@ from django.template import RequestContext
 from django.views import generic
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
+import time
+import datetime
+import json
+import os
+
 from .models import VisualCountry, VisualSearchResult
 
 from django.http import HttpResponseRedirect, Http404
@@ -29,12 +34,67 @@ def search(request,country):
         if form.is_valid():
             # search for data in the database then return the view that will show the list of hotels that match the search
             # process the data in form.cleaned_data as required
+
+            ##############################################################################
+            # dummy variables
+            #country = "Ukraine"
+            n_o_a = form.cleaned_data['no_of_adults']
+            n_o_c = form.cleaned_data['no_of_children']
+            n_o_r = form.cleaned_data['no_of_rooms']
+            star_rate = form.cleaned_data['star_rating']
+            stay_len = form.cleaned_data['length_of_stay']
+            priceVal = form.cleaned_data['price_dollars']
+            ##############################################################################
+
+            searchids1 = []
+            searchids2 = []
+            searchids = []
+            hotelids = []
+            result = []
+            start_time = time.time()
+#objects = VisualSearchResult.objects.filter(Q(hotel_id = listofhotels[0]) |Q(hotel_id = listofhotels[1])|Q(hotel_id = listofhotels[2])|Q(hotel_id = listofhotels[3])|Q(hotel_id = listofhotels[4]))
+#objects = VisualSearchResult.objects.filter(price__range = [100.00, 150.00])
+
+            country = country.replace('_', ' ')
+            # get country
+            objectCountry = VisualCountry.objects.get(name = country)
+            countryid = objectCountry.id
+
+            #sorts out no of adult, children, rooms get list of searchids
+            objects1 = VisualSearch.objects.filter(no_adults = n_o_a).filter(no_children = n_o_c).filter(no_rooms = n_o_r) 
+            for search in objects1:
+                searchids1.append(search.id)
+
+            #sorts out length of stay gets list of searchids
+            objects2 = VisualDateInfo.objects.filter(length_of_stay = stay_len)
+            for search in objects2:
+                searchids2.append(search.search_id)
+
+            #refine search ids list
+            searchids = list(set(searchids1)&set(searchids2))
+
+            #sorts out star rating and country get list of hotels
+            objects2 = VisualHotel.objects.filter(star_rating = star_rate, country_id = countryid )
+            for search in objects2:
+                hotelids.append(search.id)
+
+            # get the hottels with all specifications
+            if not hotelids:
+                objects3 = VisualSearchResult.objects.filter(search_id__in=searchids)
+            elif not searchids:
+                objects3 = VisualSearchResult.objects.filter(hotel_id__in=hotelids)
+            else:
+                objects3 = VisualSearchResult.objects.filter(search_id__in=searchids).filter(hotel_id__in=hotelids)
+    
+            newobj = objects3[0:5]
+            for search in newobj:
+                result.append(search.hotel_id)
             
             #query DB and whaever else here
-            hotel_list = ['mine','mine1', 'mine2', 'mine3','mine','mine1', 'mine2', 'mine3','mine','mine1', 'mine2', 'mine3','mine','mine1', 'mine2', 'mine3','mione','sansjd','sdasd','dasnds'] #Variable that will contain the list of hotels that mathc the search criteria
+            #hotel_list = ['mine','mine1', 'mine2', 'mine3','mine','mine1', 'mine2', 'mine3','mine','mine1', 'mine2', 'mine3','mine','mine1', 'mine2', 'mine3','mione','sansjd','sdasd','dasnds'] #Variable that will contain the list of hotels that mathc the search criteria
             
             #paginate the list of hotels
-            paginator = Paginator(hotel_list, 10) # Show 10 hotels per page
+            paginator = Paginator(result, 5) # Show 10 hotels per page
 
             page = request.GET.get('page')
             try:
