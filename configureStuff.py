@@ -8,10 +8,10 @@ This script generates data for the bubble chart view for the loactions page(coun
 #import os
 #import django
 #
-#os.environ.setdefault("DJANGO_SETTINGS_MODULE", "hotelRanking.settings")
-#django.setup()
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "hotelRanking.settings")
+django.setup()
 
-#from visual.models import VisualCountry, VisualSearchResult, VisualHotel
+from visual.models import VisualCountry, VisualSearchResult, VisualHotel
 
 def countryNames(country):
     #countries = [country.name for country in VisualCountry.objects.all()]

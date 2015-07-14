@@ -59,5 +59,5 @@ def country(request, country):
 	return render(request, 'visual/country.html')
 
 def play(request):
-    
+    context = {"helo": "This is a hello message oooh yeah"}
     return render_to_response('visual/play.html', context,RequestContext(request),)
