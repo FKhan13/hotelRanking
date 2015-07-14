@@ -2,14 +2,8 @@ from django.shortcuts import render, render_to_response
 from django.template import RequestContext
 from django.views import generic
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-
-import time
-import datetime
-import json
-import os
-
+import time, datetime,json,os
 from .models import *
-
 from django.http import HttpResponseRedirect, Http404
 from .forms import SearchForm
 
@@ -36,8 +30,6 @@ def search(request,country):
             # process the data in form.cleaned_data as required
 
             ##############################################################################
-            # dummy variables
-            #country = "Ukraine"
             n_o_a = form.cleaned_data['no_of_adults']
             n_o_c = form.cleaned_data['no_of_children']
             n_o_r = form.cleaned_data['no_of_rooms']
@@ -51,9 +43,6 @@ def search(request,country):
             searchids = []
             hotelids = []
             result = []
-            start_time = time.time()
-#objects = VisualSearchResult.objects.filter(Q(hotel_id = listofhotels[0]) |Q(hotel_id = listofhotels[1])|Q(hotel_id = listofhotels[2])|Q(hotel_id = listofhotels[3])|Q(hotel_id = listofhotels[4]))
-#objects = VisualSearchResult.objects.filter(price__range = [100.00, 150.00])
 
             country = country.replace('_', ' ')
             # get country
@@ -90,11 +79,8 @@ def search(request,country):
             for search in newobj:
                 result.append(search.hotel_id)
             
-            #query DB and whaever else here
-            #hotel_list = ['mine','mine1', 'mine2', 'mine3','mine','mine1', 'mine2', 'mine3','mine','mine1', 'mine2', 'mine3','mine','mine1', 'mine2', 'mine3','mione','sansjd','sdasd','dasnds'] #Variable that will contain the list of hotels that mathc the search criteria
-            
             #paginate the list of hotels
-            paginator = Paginator(result, 5) # Show 10 hotels per page
+            paginator = Paginator(result, 5) # Show 5 hotels per page
 
             page = request.GET.get('page')
             try:
@@ -115,8 +101,8 @@ def search(request,country):
     
     return render(request, 'visual/search.html', {'form': form})
 
-def country(request, country): 
-	return render(request, 'visual/country.html')
+def hotel(request,hotel_id):
+    return render(request, 'visual/hotel.html')
 
 def play(request):
     context = {"helo": "This is a hello message oooh yeah"}
