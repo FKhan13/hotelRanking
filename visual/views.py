@@ -8,7 +8,7 @@ import datetime
 import json
 import os
 
-from .models import VisualCountry, VisualSearchResult
+from .models import *
 
 from django.http import HttpResponseRedirect, Http404
 from .forms import SearchForm
