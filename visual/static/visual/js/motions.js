@@ -15,7 +15,7 @@ function independant(d) {
 //function key(d) { return d.name; }
 
 // Chart dimensions.
-var margin = {top: 100, right: 300, bottom: 150, left: 100},
+var margin = {top: 30, right: 350, bottom: 150, left: 100},
     width = window.innerWidth - margin.right,
     height = window.innerHeight - margin.top - margin.bottom;
 

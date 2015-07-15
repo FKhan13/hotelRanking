@@ -74,7 +74,7 @@
         <div class="row">
             <div class="col-lg-12">
                 <h1 class="page-header">
-                    List of Hotels
+                    Results: List of Hotels
                 </h1>
                 <ol class="breadcrumb">
                     <li><a href="{% url 'visual:index' %}">Home</a>
@@ -84,8 +84,15 @@
         </div>
         <!-- /.row -->
         <!-- graph div -->
+        <h2>
+        	Hotel Comparison Bubble Chart
+        </h2>
         <div id="chart"></div>
         <br>
+        <br>
+        <h2>
+        	Chart Guidelines:
+        </h2>
         <br>
         <p> <ul>
         	<li> <strong>Hover bubble to see Hotel (its colour stays the same so you can keep track of it easily)</strong> </li>
@@ -99,8 +106,10 @@
         </p>
         <hr>
         <br>
-        <br>
-        <br>
+        <h2>
+        	List of Hotels
+        </h2>
+        <hr>
         {% for hotel in hotels %}
             <!-- Hotel Item -->
             <div class="row">
