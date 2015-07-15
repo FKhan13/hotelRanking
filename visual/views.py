@@ -2,14 +2,10 @@ from django.shortcuts import render, render_to_response
 from django.template import RequestContext
 from django.views import generic
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-
-import time
-import datetime
-import json
-import os
-
+import time, datetime,json,os
+import numpy as np
+import matplotlib.pyplot as plt
 from .models import *
-
 from django.http import HttpResponseRedirect, Http404
 from .forms import SearchForm
 
@@ -36,8 +32,6 @@ def search(request,country):
             # process the data in form.cleaned_data as required
 
             ##############################################################################
-            # dummy variables
-            #country = "Ukraine"
             n_o_a = form.cleaned_data['no_of_adults']
             n_o_c = form.cleaned_data['no_of_children']
             n_o_r = form.cleaned_data['no_of_rooms']
@@ -51,9 +45,6 @@ def search(request,country):
             searchids = []
             hotelids = []
             result = []
-            start_time = time.time()
-#objects = VisualSearchResult.objects.filter(Q(hotel_id = listofhotels[0]) |Q(hotel_id = listofhotels[1])|Q(hotel_id = listofhotels[2])|Q(hotel_id = listofhotels[3])|Q(hotel_id = listofhotels[4]))
-#objects = VisualSearchResult.objects.filter(price__range = [100.00, 150.00])
 
             country = country.replace('_', ' ')
             # get country
@@ -90,11 +81,8 @@ def search(request,country):
             for search in newobj:
                 result.append(search.hotel_id)
             
-            #query DB and whaever else here
-            #hotel_list = ['mine','mine1', 'mine2', 'mine3','mine','mine1', 'mine2', 'mine3','mine','mine1', 'mine2', 'mine3','mine','mine1', 'mine2', 'mine3','mione','sansjd','sdasd','dasnds'] #Variable that will contain the list of hotels that mathc the search criteria
-            
             #paginate the list of hotels
-            paginator = Paginator(result, 5) # Show 10 hotels per page
+            paginator = Paginator(result, 5) # Show 5 hotels per page
 
             page = request.GET.get('page')
             try:
@@ -115,9 +103,119 @@ def search(request,country):
     
     return render(request, 'visual/search.html', {'form': form})
 
-def country(request, country): 
-	return render(request, 'visual/country.html')
+def hotel(request,hotel_id):
+
+    avg = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+    months = ["J","F","M","A","M","J","J","A","S","O","N","D","J","F","M","A","M","J","J","A","S","O","N","D"]
+    no_of_months = 24
+
+    #obtain the average price for each month for the hotel then plot and save the graph
+    getAverage(hotel_id,"price",avg)
+    plotAndSaveGraph(avg, "Price ($)", no_of_months, months, "Average price of Hotel between 2012 and 2013", "visual/static/visual/images/price.jpg")
+    avg = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+
+    #obtain the average user review score for each month for the hotel then plot and save the graph
+    getAverage(hotel_id,"prop_review_score",avg)
+    plotAndSaveGraph(avg, "Review Score out of 5 ", no_of_months, months, "Average User review Score of Hotel between 2012 and 2013", "visual/static/visual/images/review.jpg")
+    avg = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+
+    #obtain the average user review score for each month for the hotel then plot and save the graph
+    getSum(hotel_id,"booking_bool",avg)
+    plotAndSaveGraph(avg, "Number of Bookings ", no_of_months, months, "Number of Times Hotel Was Booked for Each Month", "visual/static/visual/images/booking.jpg")
+    avg = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+
+    #obtain the average user review score for each month for the hotel then plot and save the graph
+    getSum(hotel_id,"if_clicked",avg)
+    plotAndSaveGraph(avg, "Number of Clicks ", no_of_months, months, "Number of Times Hotel Was Clicked for Each Month", "visual/static/visual/images/clicked.jpg")
+    avg = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+
+    #obtain the average user review score for each month for the hotel then plot and save the graph
+    getSum(hotel_id,"short_stay_sat",avg)
+    plotAndSaveGraph(avg, "Number of Weekend Stays ", no_of_months, months, "Number of Times Hotel Was Clicked for Each Month", "visual/static/visual/images/saturday.jpg")
+    avg = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+
+    return render(request, 'visual/hotel.html')
 
 def play(request):
     context = {"helo": "This is a hello message oooh yeah"}
     return render_to_response('visual/play.html', context,RequestContext(request),)
+
+#helper function to obtain averages for the hotel view
+def getAverage(hotelId,avg_of_what,avg):
+ 
+    searchids =[]
+    dates = []
+    prices = []
+
+    hotelList = VisualSearchResult.objects.filter(hotel_id = hotelId)
+
+    for i in hotelList:
+        searchids.append(i.search_id)
+
+    for y in searchids:
+        visualTable = VisualDateInfo.objects.get(search = y)
+        dates.append(visualTable.date_time)
+
+    for r in searchids:
+        searchResult = VisualSearchResult.objects.filter(hotel_id = hotelId).values(avg_of_what).get(search_id = r)[avg_of_what]
+        prices.append(searchResult)
+
+    counter =0
+    for d in dates:
+        if d.year == 2012:
+            avg[d.month-1] = (avg[d.month-1] + prices[counter]) / 2
+        if d.year == 2013:
+            avg[d.month+11]= (avg[d.month+11]+ prices[counter]) / 2
+        counter += 1
+
+#helper function to obtain the amount of occurences of a booleans
+def getSum(hotelId,sum_of_what, add):
+    searchids = []
+    dates = []
+    bools = []
+    hotelList = VisualSearchResult.objects.filter(hotel_id = hotelId)
+
+    for i in hotelList:
+        searchids.append(i.search_id)
+
+    for y in searchids:
+        visualTable = VisualDateInfo.objects.get(search = y)
+        dates.append(visualTable.date_time)
+
+    for r in searchids:
+        searchResult = VisualSearchResult.objects.filter(hotel_id = hotelId).values(sum_of_what).get(search_id = r)[sum_of_what]
+        bools.append(searchResult)
+
+    counter =0
+    for d in dates:
+        if d.year == 2012:
+            if bools[counter] == True: add[d.month-1] = add[d.month-1] + 1
+        if d.year == 2013:
+            if bools[counter] == True: add[d.month+11] = add[d.month+11]+ 1
+        counter += 1
+
+#helper function to plot and save graph for the hotel view
+def plotAndSaveGraph( y_data, y_label, no_of_months, month_names, title, image_name):
+        #set up
+        fig, ax = plt.subplots()
+        index = np.arange(no_of_months)
+        bar_width = 0.5
+        opacity = 0.4
+        error_config = {'ecolor': '0.3'}
+        
+        #plot graph
+        rects1 = plt.bar(index, y_data, bar_width,
+                 alpha=opacity,
+                 color='b',
+                 label=y_label)
+
+        plt.xlabel('Months (between January 2012 to December 2013)')
+        plt.ylabel(y_label)
+        plt.title(title)
+        plt.xticks(index + bar_width, month_names)
+        plt.legend()
+        #plt.tight_layout()
+        plt.savefig(image_name)
+
+def resetAverage(avg):
+    avg = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
