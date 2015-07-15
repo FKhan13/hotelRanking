@@ -88,7 +88,7 @@ DATABASES = {
         'NAME': 'hotelReserve',
         'USER': 'jedi',
         'PASSWORD': 'trance',
-        'HOST': 'localhost', # 146.64.25.91
+        'HOST': '146.64.25.91', # 146.64.25.91
         'PORT': '5432',
     }
 }

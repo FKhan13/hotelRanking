@@ -12,6 +12,17 @@
     <title>Hotel Rankings</title>
     
     {% load staticfiles %}
+    
+    <!--Simple stylesheet to center diplayed images-->
+    <style type="text/css">
+    
+        img.displayed {
+        display: block;
+        margin-left: auto;
+        margin-right: auto
+        } 
+    </style>
+
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="{%static 'visual/css/bootstrap.min.css'%}" >
 
@@ -69,23 +80,23 @@
 
         <hr>
 
-        <img src="{%static 'visual/images/price.jpg'%}">
+        <img class ="displayed" src="{%static 'visual/images/price.jpg'%}">
 
         <hr>
 
-        <img src="{%static 'visual/images/review.jpg'%}">
+        <img class ="displayed" src="{%static 'visual/images/review.jpg'%}">
 
         <hr>
 
-        <img src="{%static 'visual/images/booking.jpg'%}">
+        <img class ="displayed" src="{%static 'visual/images/booking.jpg'%}">
 
         <hr>
 
-        <img src="{%static 'visual/images/clicked.jpg'%}">
+        <img class ="displayed" src="{%static 'visual/images/clicked.jpg'%}">
 
         <hr>
 
-        <img src="{%static 'visual/images/saturday.jpg'%}">
+        <img class ="displayed" src="{%static 'visual/images/saturday.jpg'%}">
 
         <hr>
 
