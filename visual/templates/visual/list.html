@@ -21,6 +21,9 @@
     <!-- Custom Fonts -->
     <link href="{%static 'visual/font-awesome/css/font-awesome.min.css'%}" rel="stylesheet" type="text/css">
 
+    <!-- motions.css used for motions graph comapring hotels page -->
+	<link href="{%static 'visual/css/motions.css'%}" rel="stylesheet">
+	
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -66,7 +69,7 @@
 
     <!-- Page Content -->
     <div class="container">
-
+		
         <!-- Page Heading/Breadcrumbs -->
         <div class="row">
             <div class="col-lg-12">
@@ -80,13 +83,30 @@
             </div>
         </div>
         <!-- /.row -->
-        
+        <!-- graph div -->
+        <div id="chart"></div>
+        <br>
+        <br>
+        <p> <ul>
+        	<li> <strong>Hover bubble to see Hotel (its colour stays the same so you can keep track of it easily)</strong> </li>
+        	<li> <strong>Scroll mouse over year to switch between 2012 and 2013</strong> </li>
+        	<li> <strong>Bubble size relative to the amount of bookings in the yeear</strong> </li>
+        	<li> <strong>Blue outline indicates hotel does not belong to a chain, black means it does</strong> </li>
+        	<li> <strong>Bubble position on y axis indicates average price in dollars over the year</strong> </li>
+        	<li> <strong>Bubble position on x axis indicates average user review rating over the year</strong> </li>
+        </ul>
+        	
+        </p>
+        <hr>
+        <br>
+        <br>
+        <br>
         {% for hotel in hotels %}
             <!-- Hotel Item -->
             <div class="row">
                 <div class="col-md-7">
                     <a href="#">
-                        <img class="img-responsive img-hover" src="http://placehold.it/700x300" alt="">
+                        <img class="img-responsive img-hover" src="{%static 'visual/images/hotelIcon.png'%}" alt="">
                     </a>
                 </div>
                 <div class="col-md-5">
@@ -145,7 +165,16 @@
 
     <!-- Bootstrap Core JavaScript -->
     <script src="{%static 'visual/js/bootstrap.min.js'%}"></script>
+    
+    <script src="{%static 'visual/js/d3.v3.min.js'%}"></script>
+    
+    <!-- crossfilter used in motions graph -->
+	<script src="{%static 'visual/js/crossfilter.v1.min.js'%}"></script>
 
+	<!-- motions.js used for the motion compare hotels graph -->
+    <script src="{%static 'visual/js/motions.js'%}"></script>
+    
+    
 </body>
 
 </html>

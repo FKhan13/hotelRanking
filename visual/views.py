@@ -8,6 +8,7 @@ import matplotlib.pyplot as plt
 from .models import *
 from django.http import HttpResponseRedirect, Http404
 from .forms import SearchForm
+from django.db.models import Q
 
 class HomeView(generic.TemplateView):
 	template_name = "visual/index.html"
@@ -81,6 +82,7 @@ def search(request,country):
             for search in newobj:
                 result.append(search.hotel_id)
             
+            result = list(set(result))
             #paginate the list of hotels
             paginator = Paginator(result, 5) # Show 5 hotels per page
 
@@ -93,6 +95,10 @@ def search(request,country):
             except EmptyPage:
             # If page is out of range (e.g. 9999), deliver last page of results.
                 hotels = paginator.page(paginator.num_pages)
+            
+            
+            #print (result)
+            getMotioninfo(result)            
             
             # redirect to a new URL: Should be the list.html template
             return render_to_response('visual/list.html', {"hotels": hotels})
@@ -217,5 +223,50 @@ def plotAndSaveGraph( y_data, y_label, no_of_months, month_names, title, image_n
         #plt.tight_layout()
         plt.savefig(image_name)
 
-def resetAverage(avg):
-    avg = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+
+    
+# This gets all the infromation ready for the motions graph
+def getMotioninfo(listofhotels):
+    itemlist = []
+    objects = VisualSearchResult.objects.filter(hotel_id__in = listofhotels)
+    #objects = VisualSearchResult.objects.filter(Q(hotel_id = listofhotels[0]) |Q(hotel_id = listofhotels[1])|Q(hotel_id = listofhotels[2])|Q(hotel_id = listofhotels[3])|Q(hotel_id = listofhotels[4]))
+    hotellist = []
+    for x in objects: 
+        timestampo = VisualDateInfo.objects.get(search_id = x.search_id)
+        hotelobj = VisualHotel.objects.get(id = x.hotel_id) 
+        times = timestampo.date_time
+        year = times.strftime("%Y")# this is the timestamp
+        document = {}
+        hotelname = "Hotel " + str(x.hotel_id)
+        if hotelname not in hotellist:
+            hotellist.append(hotelname)
+            document["name"] =  hotelname
+            document["price"] = 0 
+            document["bookings"] = 0 # booking boolean
+            document["review_score"] = 0 # property review score
+            document["year"] = 2011
+            document["desirability"] = 0
+            document["independant_bool"] = int(hotelobj.independent)
+            itemlist.append(document)
+            
+        document = {}
+        document["name"] =  hotelname
+        document["price"] = float(x.price) 
+        document["bookings"] = int(x.booking_bool) # booking boolean
+        document["year"] = int(year)
+        #document["desirability"] = float(hotelobj.desirability)
+        document["independant_bool"] = int(hotelobj.independent)
+        itemlist.append(document)    
+        
+        if x.prop_review_score:
+            document["review_score"] = float(x.prop_review_score) # property review score
+        else:
+            document["review_score"] = 0 # property review score
+#        if x.price != 0:
+#            document["price"] = float(x.price) # property review score
+#        else:
+#            document["price"] = 0 
+    print (hotellist)
+    with open('visual/static/visual/js/result.json', 'w') as fp:
+        json.dump(itemlist, fp)
+
