@@ -89,7 +89,7 @@ function draw(topo) {
       	var country = d.properties.name;
 
         //url hardcoded due to the fact that django links cannot be recreated using javascript
-        var link = "location.href ='http://localhost:8000/visual/";
+        var link = "location.href ='/visual/";
 
         //spaces should be replaced with underscores because spaces are not allowed in url links
         var correct_country = country.replace(/ /gi,"_");

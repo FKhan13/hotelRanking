@@ -91,7 +91,7 @@
                 </div>
                 <div class="col-md-5">
                     <h3><strong>Hotel No:</strong> {{hotel}}</h3> <!-- Might need to change the value in this tag--> 
-                    <a class="btn btn-primary" href="{{'http://localhost:8000/visual/' + hotel }}">View Hotel</i></a>
+                    <a class="btn btn-primary" href="{% url 'visual:hotel' hotel %}">View Hotel</i></a>
                 </div>
             </div>
             <!-- /.row -->
