@@ -125,19 +125,19 @@ def hotel(request,hotel_id):
     plotAndSaveGraph(avg, "Review Score out of 5 ", no_of_months, months, "Average User review Score of Hotel between 2012 and 2013", "visual/static/visual/images/review.jpg")
     avg = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
 
-    #obtain the average user review score for each month for the hotel then plot and save the graph
+    #obtain the number of times that a hotel was booked each month for the hotel then plot and save the graph
     getSum(hotel_id,"booking_bool",avg)
     plotAndSaveGraph(avg, "Number of Bookings ", no_of_months, months, "Number of Times Hotel Was Booked for Each Month", "visual/static/visual/images/booking.jpg")
     avg = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
 
-    #obtain the average user review score for each month for the hotel then plot and save the graph
+    #obtain the number of times the hotel was viewed each month for the hotel then plot and save the graph
     getSum(hotel_id,"if_clicked",avg)
-    plotAndSaveGraph(avg, "Number of Clicks ", no_of_months, months, "Number of Times Hotel Was Clicked for Each Month", "visual/static/visual/images/clicked.jpg")
+    plotAndSaveGraph(avg, "Number of Clicks ", no_of_months, months, "Number of Times Hotel Was Viewed for Each Month", "visual/static/visual/images/clicked.jpg")
     avg = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
 
-    #obtain the average user review score for each month for the hotel then plot and save the graph
+    #obtain the number of times a hotel was booked for a weekend stay each month for the hotel then plot and save the graph
     getSum(hotel_id,"short_stay_sat",avg)
-    plotAndSaveGraph(avg, "Number of Weekend Stays ", no_of_months, months, "Number of Times Hotel Was Clicked for Each Month", "visual/static/visual/images/saturday.jpg")
+    plotAndSaveGraph(avg, "Number of Weekend Stays ", no_of_months, months, "Number of Times Hotel Was Viewed for a Weekend Stay Each Month", "visual/static/visual/images/saturday.jpg")
     avg = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
 
     return render(request, 'visual/hotel.html')
